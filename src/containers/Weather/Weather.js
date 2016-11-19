@@ -7,7 +7,7 @@ import config from './config';
 class Weather extends Component {
   constructor(props) {
     super(props);
-    this.state = { widgetSrc: null, widgetCode: null};
+    this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
   }
   submit = (event) => {
     event.preventDefault();
@@ -16,7 +16,7 @@ class Weather extends Component {
     const units = this.refs.inputUnits.value || 'metric';
     const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${title}&showWind=${showWind}&units=${units}`;
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
-    this.setState({widgetSrc, widgetCode});
+    this.setState({title, showWind, units, widgetSrc, widgetCode});
     console.log('config', config);
   }
   render() {

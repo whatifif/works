@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 // import logo from './logo.svg';
 import './Weather.scss';
 import config from './config';
@@ -16,9 +16,17 @@ import {connect} from 'react-redux';
   {}
   )
 class Weather extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+    showWind: PropTypes.bool,
+    units: PropTypes.string,
+    widgetSrc: PropTypes.string,
+    widgetCode: PropTypes.string
+  }
   constructor(props) {
     super(props);
-    this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
+    // this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
+    this.state = { title: props.title, showWind: props.showWind, units: props.units, widgetSrc: props.widgetSrc, widgetCode: props.widgetCode};
   }
   submit = (event) => {
     event.preventDefault();
@@ -28,7 +36,6 @@ class Weather extends Component {
     const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${title}&showWind=${showWind}&units=${units}`;
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
     this.setState({title, showWind, units, widgetSrc, widgetCode});
-    console.log('config', config);
   }
   render() {
     return (
@@ -44,13 +51,13 @@ class Weather extends Component {
               <div className="form-group">
                 <label htmlFor="inputTitle" className="col-sm-2 control-label">Title</label>
                 <div className="col-sm-10">
-                  <input type="text" className="form-control" id="inputTitle" ref="inputTitle" placeholder="title" />
+                  <input type="text" className="form-control" id="inputTitle" ref="inputTitle" defaultValue={this.state.title} placeholder="title" />
                 </div>
               </div>
               <div className="form-group">
                 <label htmlFor="inputUnits" className="col-sm-2 control-label">Units</label>
                 <div className="col-sm-10">
-                  <select className="form-control" id="inputUnits" ref="inputUnits">
+                  <select className="form-control" id="inputUnits" ref="inputUnits" defaultValue={this.state.units}>
                     <option value="metric">metric</option>
                     <option value="imperial">imperial</option>
                   </select>
@@ -60,7 +67,7 @@ class Weather extends Component {
                 <div className="col-sm-offset-2 col-sm-10">
                   <div className="checkbox">
                     <label>
-                      <input type="checkbox" id="inputShowWind" ref="inputShowWind"/> Show Wind
+                      <input type="checkbox" id="inputShowWind" ref="inputShowWind" defaultChecked={this.state.showWind}/> Show Wind
                     </label>
                   </div>
                 </div>

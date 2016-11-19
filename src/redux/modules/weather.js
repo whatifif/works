@@ -14,9 +14,9 @@ const SAVE_FAIL = 'redux-example/weather/SAVE_FAIL';
 // };
 
 const initialState = {
-  title: null,
-  showWind: null,
-  units: null,
+  title: 'Widget Title',
+  showWind: true,
+  units: 'metric',
   widgetSrc: null,
   widgetCode: null,
   loaded: false,

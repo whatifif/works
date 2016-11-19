@@ -103,7 +103,7 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
-                <textarea rows="7"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode}>
+                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode}>
                 </textarea>
               </div>
               <div className="form-group">

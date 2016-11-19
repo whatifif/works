@@ -4,6 +4,7 @@ import './Weather.scss';
 import config from './config';
 // import config from '../../config';
 import {connect} from 'react-redux';
+import * as weatherActions from 'redux/modules/weather';
 
 @connect(
   state => ({
@@ -14,7 +15,7 @@ import {connect} from 'react-redux';
     widgetCode: state.weather.widgetCode,
     widgetList: state.weather.widgetList
   }),
-  {}
+  {...weatherActions}
   )
 class Weather extends Component {
   static propTypes = {
@@ -23,7 +24,8 @@ class Weather extends Component {
     units: PropTypes.string,
     widgetSrc: PropTypes.string,
     widgetCode: PropTypes.string,
-    widgetList: PropTypes.array
+    widgetList: PropTypes.array,
+    saveWidget: PropTypes.func
   }
   constructor(props) {
     super(props);
@@ -52,12 +54,14 @@ class Weather extends Component {
   }
   submit = (event) => {
     event.preventDefault();
-    const title = encodeURI(this.refs.inputTitle.value || 'Weather Widget');
+    const title = this.refs.inputTitle.value || 'Weather Widget';
     const showWind = String(this.refs.inputShowWind.checked) || 'false';
     const units = this.refs.inputUnits.value || 'metric';
-    const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${title}&showWind=${showWind}&units=${units}`;
+    const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${encodeURI(title)}&showWind=${showWind}&units=${units}`;
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
-    this.setState({title, showWind, units, widgetSrc, widgetCode});
+    const newWidget = {title, showWind, units, widgetSrc, widgetCode};
+    this.setState({title, showWind, units, widgetSrc, widgetCode, widgetList: [...this.state.widgetList, newWidget]});
+    this.props.saveWidget(newWidget);
   }
   render() {
     return (
@@ -98,7 +102,7 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <div className="col-sm-offset-2 col-sm-10">
-                  <button type="submit" className="btn btn-default">Get Widget Code</button>
+                  <button type="submit" className="btn btn-primary btn-lg">Get Widget Code</button>
                 </div>
               </div>
               <div className="form-group">
@@ -117,7 +121,7 @@ class Weather extends Component {
             <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
           </div>
           <div className="col-md-4">
-            <h3>List of the Created Widgets</h3>
+            <h3>List of Widgets Created</h3>
             {this.state.widgetList && this.state.widgetList.map((item, index) =>
               <div className="well" key={index}>
                 <div>{item.title}</div>

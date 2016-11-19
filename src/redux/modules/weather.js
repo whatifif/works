@@ -6,6 +6,7 @@ const EDIT_STOP = 'redux-example/weather/EDIT_STOP';
 const SAVE = 'redux-example/weather/SAVE';
 const SAVE_SUCCESS = 'redux-example/weather/SAVE_SUCCESS';
 const SAVE_FAIL = 'redux-example/weather/SAVE_FAIL';
+const SAVE_WIDGET = 'redux-example/weather/SAVE_WIDGET';
 
 // const initialState = {
 //   loaded: false,
@@ -13,6 +14,22 @@ const SAVE_FAIL = 'redux-example/weather/SAVE_FAIL';
 //   saveError: {}
 // };
 
+// const initialState = {
+//   title: 'Widget Title',
+//   showWind: true,
+//   units: 'metric',
+//   widgetSrc: null,
+//   widgetCode: null,
+//   widgetList: [
+//     {title: 'a2 title', widgetCode: 'a2 widgetcode'},
+//     {title: 'b2 title', widgetCode: 'b2 widgetcode'},
+//     {title: 'c2 title', widgetCode: 'c2 widgetcode'},
+//     {title: 'd2 title', widgetCode: 'd2 widgetcode'},
+//   ],
+//   loaded: false,
+//   editing: {},
+//   saveError: {}
+// };
 const initialState = {
   title: 'Widget Title',
   showWind: true,
@@ -20,16 +37,12 @@ const initialState = {
   widgetSrc: null,
   widgetCode: null,
   widgetList: [
-    {title: 'a2 title', widgetCode: 'a2 widgetcode'},
-    {title: 'b2 title', widgetCode: 'b2 widgetcode'},
-    {title: 'c2 title', widgetCode: 'c2 widgetcode'},
-    {title: 'd2 title', widgetCode: 'd2 widgetcode'},
+
   ],
   loaded: false,
   editing: {},
   saveError: {}
 };
-
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD:
@@ -94,6 +107,14 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+    case SAVE_WIDGET:
+      return {
+        ...state,
+        widgetList: [
+          ...state.widgetList,
+          action.widget
+        ]
+      };
     default:
       return state;
   }
@@ -126,6 +147,10 @@ export function editStart(id) {
 
 export function editStop(id) {
   return { type: EDIT_STOP, id };
+}
+
+export function saveWidget(widget) {
+  return { type: SAVE_WIDGET, widget };
 }
 //------------------------------------------------
 // const LOAD = 'redux-example/widgets/LOAD';

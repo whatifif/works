@@ -1,106 +1,76 @@
-import React, {Component, PropTypes} from 'react';
-import Helmet from 'react-helmet';
-import {connect} from 'react-redux';
-import * as widgetActions from 'redux/modules/widgets';
-import {isLoaded, load as loadWidgets} from 'redux/modules/widgets';
-import {initializeWithKey} from 'redux-form';
-import { WidgetForm } from 'components';
-import { asyncConnect } from 'redux-async-connect';
+import React, { Component } from 'react';
+// import logo from './logo.svg';
+import './Weather.scss';
+import config from './config';
 
-@asyncConnect([{
-  deferred: true,
-  promise: ({store: {dispatch, getState}}) => {
-    if (!isLoaded(getState())) {
-      return dispatch(loadWidgets());
-    }
+class Weather extends Component {
+  componentDidMount() {
+
   }
-}])
-@connect(
-  state => ({
-    widgets: state.widgets.data,
-    editing: state.widgets.editing,
-    error: state.widgets.error,
-    loading: state.widgets.loading
-  }),
-  {...widgetActions, initializeWithKey })
-export default class Widgets extends Component {
-  static propTypes = {
-    widgets: PropTypes.array,
-    error: PropTypes.string,
-    loading: PropTypes.bool,
-    initializeWithKey: PropTypes.func.isRequired,
-    editing: PropTypes.object.isRequired,
-    load: PropTypes.func.isRequired,
-    editStart: PropTypes.func.isRequired
-  };
-
+  submit = (event) => {
+    event.preventDefault();
+    const title = encodeURI(this.refs.inputTitle.value || 'Weather Widget');
+    const showWind = String(this.refs.inputShowWind.checked) || 'false';
+    const units = this.refs.inputUnits.value || 'metric';
+    const widgetCode = `<iframe src="${config.widgetBaseUrl}?title=${title}&showWind=${showWind}&units=${units}" width="100%" height="100%" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>`;
+    console.log('widgetCode', widgetCode);
+    this.refs.inputCode.value = widgetCode;
+  }
   render() {
-    const handleEdit = (widget) => {
-      const {editStart} = this.props; // eslint-disable-line no-shadow
-      return () => editStart(String(widget.id));
-    };
-    const {widgets, error, editing, loading, load} = this.props;
-    let refreshClassName = 'fa fa-refresh';
-    if (loading) {
-      refreshClassName += ' fa-spin';
-    }
-    const styles = require('./Widgets.scss');
     return (
-      <div className={styles.widgets + ' container'}>
-        <h1>
-          Widgets
-          <button className={styles.refreshBtn + ' btn btn-success'} onClick={load}>
-            <i className={refreshClassName}/> {' '} Reload Widgets
-          </button>
-        </h1>
-        <Helmet title="Widgets"/>
-        <p>
-          If you hit refresh on your browser, the data loading will take place on the server before the page is returned.
-          If you navigated here from another page, the data was fetched from the client after the route transition.
-          This uses the decorator method <code>@asyncConnect</code> with the <code>deferred: true</code> flag. To block
-          a route transition until some data is loaded, remove the <code>deffered: true</code> flag.
-          To always render before loading data, even on the server, use <code>componentDidMount</code>.
-        </p>
-        <p>
-          This widgets are stored in your session, so feel free to edit it and refresh.
-        </p>
-        {error &&
-        <div className="alert alert-danger" role="alert">
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          {' '}
-          {error}
-        </div>}
-        {widgets && widgets.length &&
-        <table className="table table-striped">
-          <thead>
-          <tr>
-            <th className={styles.idCol}>ID</th>
-            <th className={styles.colorCol}>Color</th>
-            <th className={styles.sprocketsCol}>Sprockets</th>
-            <th className={styles.ownerCol}>Owner</th>
-            <th className={styles.buttonCol}></th>
-          </tr>
-          </thead>
-          <tbody>
-          {
-            widgets.map((widget) => editing[widget.id] ?
-              <WidgetForm formKey={String(widget.id)} key={String(widget.id)} initialValues={widget}/> :
-              <tr key={widget.id}>
-                <td className={styles.idCol}>{widget.id}</td>
-                <td className={styles.colorCol}>{widget.color}</td>
-                <td className={styles.sprocketsCol}>{widget.sprocketCount}</td>
-                <td className={styles.ownerCol}>{widget.owner}</td>
-                <td className={styles.buttonCol}>
-                  <button className="btn btn-primary" onClick={handleEdit(widget)}>
-                    <i className="fa fa-pencil"/> Edit
-                  </button>
-                </td>
-              </tr>)
-          }
-          </tbody>
-        </table>}
+      <div className="App">
+        <div className="App-header">
+          <h2>Weather Widget Editor</h2>
+        </div>
+        <div className="row">
+          <div className="col-md-4"></div>
+          <div className="col-md-4">
+<form className="form-horizontal" onSubmit={this.submit}>
+  <div className="form-group">
+    <label htmlFor="inputTitle" className="col-sm-2 control-label">Title</label>
+    <div className="col-sm-10">
+      <input type="text" className="form-control" id="inputTitle" ref="inputTitle" placeholder="title" />
+    </div>
+  </div>
+  <div className="form-group">
+    <label htmlFor="inputUnits" className="col-sm-2 control-label">Units</label>
+    <div className="col-sm-10">
+      <select className="form-control" id="inputUnits" ref="inputUnits">
+        <option value="metric">metric</option>
+        <option value="imperial">imperial</option>
+      </select>
+    </div>
+  </div>
+  <div className="form-group">
+    <div className="col-sm-offset-2 col-sm-10">
+      <div className="checkbox">
+        <label>
+          <input type="checkbox" id="inputShowWind" ref="inputShowWind"/> Show Wind
+        </label>
+      </div>
+    </div>
+  </div>
+  <div className="form-group">
+    <div className="col-sm-offset-2 col-sm-10">
+      <button type="submit" className="btn btn-default">Get Widget Code</button>
+    </div>
+  </div>
+  <div className="form-group">
+    <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
+    <textarea rows="7"className="col-sm-10" id="inputCode" ref="inputCode">
+    </textarea>
+  </div>
+  <div className="form-group">
+    <label htmlFor="" className="col-sm-2 control-label"></label>
+    <p>Copy and paste the above code to your site</p>
+  </div>
+</form>
+          </div>
+          <div className="col-md-4"></div>
+        </div>
       </div>
     );
   }
 }
 
+export default Weather;

@@ -2,10 +2,18 @@ require('babel-polyfill');
 
 const environment = {
   development: {
-    isProduction: false
+    isProduction: false,
+    host: 'localhost',
+    port: 3000,
+    apiHost: 'localhost',
+    apiPort: 3030
   },
   production: {
-    isProduction: true
+    isProduction: true,
+    host: '13.54.49.146',
+    port: 8080,
+    apiHost: '13.54.49.146',
+    apiPort: 3030
   }
 }[process.env.NODE_ENV || 'development'];
 

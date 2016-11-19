@@ -17,6 +17,7 @@ class Weather extends Component {
     const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${title}&showWind=${showWind}&units=${units}`;
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
     this.setState({widgetSrc, widgetCode});
+    console.log('config', config);
   }
   render() {
     return (

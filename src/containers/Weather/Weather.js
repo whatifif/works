@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './Weather.scss';
-// import config from './config';
-import config from '../../config';
+import config from './config';
+// import config from '../../config';
 
 class Weather extends Component {
   constructor(props) {

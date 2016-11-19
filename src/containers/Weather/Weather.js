@@ -4,17 +4,18 @@ import './Weather.scss';
 import config from './config';
 
 class Weather extends Component {
-  componentDidMount() {
-
+  constructor(props) {
+    super(props);
+    this.state = { widgetSrc: null, widgetCode: null};
   }
   submit = (event) => {
     event.preventDefault();
     const title = encodeURI(this.refs.inputTitle.value || 'Weather Widget');
     const showWind = String(this.refs.inputShowWind.checked) || 'false';
     const units = this.refs.inputUnits.value || 'metric';
-    const widgetCode = `<iframe src="${config.widgetBaseUrl}?title=${title}&showWind=${showWind}&units=${units}" width="100%" height="100%" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>`;
-    console.log('widgetCode', widgetCode);
-    this.refs.inputCode.value = widgetCode;
+    const widgetSrc = `${config.widgetBaseUrl}?title=${title}&showWind=${showWind}&units=${units}`;
+    const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
+    this.setState({widgetSrc, widgetCode});
   }
   render() {
     return (
@@ -57,7 +58,7 @@ class Weather extends Component {
   </div>
   <div className="form-group">
     <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
-    <textarea rows="7"className="col-sm-10" id="inputCode" ref="inputCode">
+    <textarea rows="7"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode}>
     </textarea>
   </div>
   <div className="form-group">
@@ -66,7 +67,9 @@ class Weather extends Component {
   </div>
 </form>
           </div>
-          <div className="col-md-4"></div>
+          <div className="col-md-4">
+          <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
+          </div>
         </div>
       </div>
     );

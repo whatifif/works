@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
     units: state.weather.units,
     widgetSrc: state.weather.widgetSrc,
     widgetCode: state.weather.widgetCode,
+    widgetList: state.weather.widgetList
   }),
   {}
   )
@@ -21,23 +22,32 @@ class Weather extends Component {
     showWind: PropTypes.bool,
     units: PropTypes.string,
     widgetSrc: PropTypes.string,
-    widgetCode: PropTypes.string
+    widgetCode: PropTypes.string,
+    widgetList: PropTypes.array
   }
   constructor(props) {
     super(props);
     // this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
+    // this.state = {
+    //   title: props.title,
+    //   showWind: props.showWind,
+    //   units: props.units,
+    //   widgetSrc: props.widgetSrc,
+    //   widgetCode: props.widgetCode,
+    //   widgetList: [
+    //     {title: 'a title', widgetCode: 'a widgetcode'},
+    //     {title: 'b title', widgetCode: 'b widgetcode'},
+    //     {title: 'c title', widgetCode: 'c widgetcode'},
+    //     {title: 'd title', widgetCode: 'd widgetcode'},
+    //   ]
+    // };
     this.state = {
       title: props.title,
       showWind: props.showWind,
       units: props.units,
       widgetSrc: props.widgetSrc,
       widgetCode: props.widgetCode,
-      widgetList: [
-        {title: 'a title', widgetCode: 'a widgetcode'},
-        {title: 'b title', widgetCode: 'b widgetcode'},
-        {title: 'c title', widgetCode: 'c widgetcode'},
-        {title: 'd title', widgetCode: 'd widgetcode'},
-      ]
+      widgetList: props.widgetList
     };
   }
   submit = (event) => {
@@ -108,8 +118,8 @@ class Weather extends Component {
           </div>
           <div className="col-md-4">
             <h3>List of the Created Widgets</h3>
-            {this.state.widgetList && this.state.widgetList.map((item) =>
-              <div className="well">
+            {this.state.widgetList && this.state.widgetList.map((item, index) =>
+              <div className="well" key={index}>
                 <div>{item.title}</div>
                 <div>{item.widgetCode}</div>
               </div>

@@ -19,6 +19,12 @@ const initialState = {
   units: 'metric',
   widgetSrc: null,
   widgetCode: null,
+  widgetList: [
+    {title: 'a2 title', widgetCode: 'a2 widgetcode'},
+    {title: 'b2 title', widgetCode: 'b2 widgetcode'},
+    {title: 'c2 title', widgetCode: 'c2 widgetcode'},
+    {title: 'd2 title', widgetCode: 'd2 widgetcode'},
+  ],
   loaded: false,
   editing: {},
   saveError: {}

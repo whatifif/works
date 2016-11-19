@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
     showWind: state.weather.showWind,
     units: state.weather.units,
     widgetSrc: state.weather.widgetSrc,
-    widgetCode: state.weather.widgetCode
+    widgetCode: state.weather.widgetCode,
   }),
   {}
   )
@@ -26,7 +26,19 @@ class Weather extends Component {
   constructor(props) {
     super(props);
     // this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
-    this.state = { title: props.title, showWind: props.showWind, units: props.units, widgetSrc: props.widgetSrc, widgetCode: props.widgetCode};
+    this.state = {
+      title: props.title,
+      showWind: props.showWind,
+      units: props.units,
+      widgetSrc: props.widgetSrc,
+      widgetCode: props.widgetCode,
+      widgetList: [
+        {title: 'a title', widgetCode: 'a widgetcode'},
+        {title: 'b title', widgetCode: 'b widgetcode'},
+        {title: 'c title', widgetCode: 'c widgetcode'},
+        {title: 'd title', widgetCode: 'd widgetcode'},
+      ]
+    };
   }
   submit = (event) => {
     event.preventDefault();
@@ -45,8 +57,10 @@ class Weather extends Component {
             <h2>Weather Widget Editor</h2>
           </div>
         </div>
+        <hr />
         <div className="row">
           <div className="col-md-4">
+            <h3>Create Widget</h3>
             <form className="form-horizontal" onSubmit={this.submit}>
               <div className="form-group">
                 <label htmlFor="inputTitle" className="col-sm-2 control-label">Title</label>
@@ -92,7 +106,15 @@ class Weather extends Component {
             <h3>Live Demo of Widget</h3>
             <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
           </div>
-          <div className="col-md-4"></div>
+          <div className="col-md-4">
+            <h3>List of the Created Widgets</h3>
+            {this.state.widgetList && this.state.widgetList.map((item) =>
+              <div className="well">
+                <div>{item.title}</div>
+                <div>{item.widgetCode}</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

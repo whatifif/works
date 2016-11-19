@@ -12,6 +12,7 @@ import {
     Survey,
     NotFound,
     Pagination,
+    Weather,
   } from 'containers';
 
 export default (store) => {
@@ -51,6 +52,7 @@ export default (store) => {
       <Route path="login" component={Login}/>
       <Route path="pagination" component={Pagination}/>
       <Route path="survey" component={Survey}/>
+      <Route path="weather" component={Weather}/>
       <Route path="widgets" component={Widgets}/>
 
       { /* Catch all route */ }

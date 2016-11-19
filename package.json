@@ -24,6 +24,9 @@
   ],
   "main": "bin/server.js",
   "scripts": {
+    "start-forever": "concurrent --kill-others \"npm run start-prod-forever\" \"npm run start-prod-api-forever\"",
+    "start-prod-forever": "better-npm-run start-prod-forever",
+    "start-prod-api-forever": "better-npm-run start-prod-api-forever",
     "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
     "start-prod": "better-npm-run start-prod",
     "start-prod-api": "better-npm-run start-prod-api",
@@ -39,6 +42,23 @@
     "test-node-watch": "./node_modules/mocha/bin/mocha $(find api -name '*-test.js') --compilers js:babel-core/register --watch"
   },
   "betterScripts": {
+    "start-prod-forever": {
+      "command": "forever start ./bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production",
+        "PORT": 8080,
+        "APIPORT": 3030
+      }
+    },
+    "start-prod-api-forever": {
+      "command": "forever start ./bin/api.js",
+      "env": {
+        "NODE_PATH": "./api",
+        "NODE_ENV": "production",
+        "APIPORT": 3030
+      }
+    },
     "start-prod": {
       "command": "node ./bin/server.js",
       "env": {

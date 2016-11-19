@@ -3,7 +3,18 @@ import React, { Component } from 'react';
 import './Weather.scss';
 import config from './config';
 // import config from '../../config';
+import {connect} from 'react-redux';
 
+@connect(
+  state => ({
+    title: state.weather.title,
+    showWind: state.weather.showWind,
+    units: state.weather.units,
+    widgetSrc: state.weather.widgetSrc,
+    widgetCode: state.weather.widgetCode
+  }),
+  {}
+  )
 class Weather extends Component {
   constructor(props) {
     super(props);

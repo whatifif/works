@@ -7,7 +7,9 @@ const SAVE = 'redux-example/weather/SAVE';
 const SAVE_SUCCESS = 'redux-example/weather/SAVE_SUCCESS';
 const SAVE_FAIL = 'redux-example/weather/SAVE_FAIL';
 const SAVE_WIDGET = 'redux-example/weather/SAVE_WIDGET';
-
+const SAVE_WIDGET_DB = 'redux-example/weather/SAVE_WIDGET_DB';
+const SAVE_WIDGET_DB_SUCCESS = 'redux-example/weather/SAVE_WIDGET_DB_SUCCESS';
+const SAVE_WIDGET_DB_FAIL = 'redux-example/weather/SAVE_WIDGET_DB_FAIL';
 // const initialState = {
 //   loaded: false,
 //   editing: {},
@@ -115,6 +117,31 @@ export default function reducer(state = initialState, action = {}) {
           action.widget
         ]
       };
+    case SAVE_WIDGET_DB:
+      return state; // 'saving' flag handled by redux-form
+    case SAVE_WIDGET_DB_SUCCESS:
+      const data2 = [...state.data];
+      data2[action.result.id - 1] = action.result;
+      return {
+        ...state,
+        data: data2,
+        editing: {
+          ...state.editing,
+          [action.id]: false
+        },
+        saveError: {
+          ...state.saveError,
+          [action.id]: null
+        }
+      };
+    case SAVE_WIDGET_DB_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          [action.id]: action.error
+        }
+      } : state;
     default:
       return state;
   }
@@ -151,6 +178,16 @@ export function editStop(id) {
 
 export function saveWidget(widget) {
   return { type: SAVE_WIDGET, widget };
+}
+
+export function saveWidgetDB(widget) {
+  return {
+    types: [SAVE_WIDGET_DB, SAVE_WIDGET_DB_SUCCESS, SAVE_WIDGET_DB_FAIL],
+    id: widget.id,
+    promise: (client) => client.post('/widget/update', {
+      data: widget
+    })
+  };
 }
 //------------------------------------------------
 // const LOAD = 'redux-example/widgets/LOAD';

@@ -67,6 +67,7 @@ class Weather extends Component {
       widgetList: props.widgetList
     };
   }
+  onChange = () => {}
   submit = (event) => {
     event.preventDefault();
     const id = uuid();
@@ -124,7 +125,7 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
-                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" defaultValue={this.state.widgetCode}>
+                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" onChange={this.onChange} value={this.state.widgetCode}>
                 </textarea>
               </div>
               <div className="form-group">

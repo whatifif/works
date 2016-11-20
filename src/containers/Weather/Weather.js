@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 // import logo from './logo.svg';
-import './Weather.scss';
+// import './Weather.scss';
 import config from './config';
 // import config from '../../config';
 import {connect} from 'react-redux';
@@ -74,10 +74,11 @@ class Weather extends Component {
   }
 
   render() {
+    const styles = require('./Weather.scss');
     return (
-      <div className="App">
+      <div className={styles.App}>
         <div className="row">
-          <div className="App-header">
+          <div className={styles['App-header']}>
             <h2>Weather Widget Editor</h2>
           </div>
         </div>
@@ -128,7 +129,8 @@ class Weather extends Component {
           </div>
           <div className="col-md-4">
             <h3>Live Demo of Widget</h3>
-            <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
+            <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>
+            <div className={styles['App-notice']}><h4>Use a firefox browser for this demo. <br/>getCurrentPosition is blocked in http protocol of chrome</h4></div>
           </div>
           <div className="col-md-4">
             <h3>List of Widgets Created</h3>

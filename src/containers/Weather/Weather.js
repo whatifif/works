@@ -43,20 +43,6 @@ class Weather extends Component {
   }
   constructor(props) {
     super(props);
-    // this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
-    // this.state = {
-    //   title: props.title,
-    //   showWind: props.showWind,
-    //   units: props.units,
-    //   widgetSrc: props.widgetSrc,
-    //   widgetCode: props.widgetCode,
-    //   widgetList: [
-    //     {title: 'a title', widgetCode: 'a widgetcode'},
-    //     {title: 'b title', widgetCode: 'b widgetcode'},
-    //     {title: 'c title', widgetCode: 'c widgetcode'},
-    //     {title: 'd title', widgetCode: 'd widgetcode'},
-    //   ]
-    // };
     this.state = {
       id: props.id,
       title: props.title,
@@ -67,6 +53,7 @@ class Weather extends Component {
       widgetList: props.widgetList
     };
   }
+  onChange = () => {}
   submit = (event) => {
     event.preventDefault();
     const id = uuid();
@@ -80,6 +67,7 @@ class Weather extends Component {
     // this.props.saveWidget(newWidget);
     this.props.saveWidgetDB(newWidget);
   }
+
   render() {
     return (
       <div className="App">
@@ -124,7 +112,7 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
-                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" defaultValue={this.state.widgetCode}>
+                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode} onChange={this.onChange}>
                 </textarea>
               </div>
               <div className="form-group">

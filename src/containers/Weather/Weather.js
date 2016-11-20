@@ -40,6 +40,7 @@ class Weather extends Component {
     widgetList: PropTypes.array,
     saveWidget: PropTypes.func,
     saveWidgetDB: PropTypes.func,
+    removeAll: PropTypes.func
   }
   constructor(props) {
     super(props);
@@ -54,6 +55,10 @@ class Weather extends Component {
     };
   }
   onChange = () => {}
+  removeAll = () => {
+    this.setState({...this.state, widgetList: []});
+    this.props.removeAll();
+  }
   submit = (event) => {
     event.preventDefault();
     const id = uuid();
@@ -112,7 +117,11 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
+<<<<<<< HEAD
                 <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode} onChange={this.onChange}>
+=======
+                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" onChange={this.onChange} value={this.state.widgetCode}>
+>>>>>>> 19
                 </textarea>
               </div>
               <div className="form-group">
@@ -126,7 +135,12 @@ class Weather extends Component {
             <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
           </div>
           <div className="col-md-4">
-            <h3>List of Widgets Created (total: {this.state.widgetList ? this.state.widgetList.length : 0})</h3>
+            <h3>List of Widgets Created</h3>
+            <div>
+              <span style={{fontSize: '1.5em'}}>total: {this.state.widgetList ? this.state.widgetList.length : 0}</span>
+              <button style={{float: 'right'}} className="btn btn-danger" onClick={this.removeAll}>remove all</button>
+            </div>
+            <p>&nbsp;</p>
             {this.state.widgetList && this.state.widgetList.map((item, index) =>
               <div className="well" key={index}>
                 <div>id: {item.id}</div>

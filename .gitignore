@@ -10,3 +10,6 @@ PROJECT-0-digitalocean.md
 PROJECT.md
 PROJECT-weather.md
 /.project
+
+# config file is gitignored for security purpose
+src/config.js

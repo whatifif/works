@@ -58,7 +58,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result,
+        widgetList: action.result.widgets,
         error: null
       };
     case LOAD_FAIL:
@@ -148,12 +148,12 @@ export function isLoaded(globalState) {
   return globalState.weather && globalState.weather.loaded;
 }
 
-export function load() {
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
-  };
-}
+// export function load() {
+//   return {
+//     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+//     promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
+//   };
+// }
 
 export function save(widget) {
   return {
@@ -187,3 +187,9 @@ export function saveWidgetDB(widget) {
   };
 }
 
+export function load() {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.get('/weather/load') // params not used, just shown as demonstration
+  };
+}

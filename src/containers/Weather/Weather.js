@@ -6,7 +6,17 @@ import config from './config';
 import {connect} from 'react-redux';
 import * as weatherActions from 'redux/modules/weather';
 import uuid from 'uuid';
+import { asyncConnect } from 'redux-async-connect';
+import { isLoaded, load as loadWidgets } from 'redux/modules/weather';
 
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      return dispatch(loadWidgets());
+    }
+  }
+}])
 @connect(
   state => ({
     id: state.weather.id,
@@ -128,7 +138,7 @@ class Weather extends Component {
             <iframe src={this.state.widgetSrc} width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="1" vspace="0" hspace="0"></iframe>`
           </div>
           <div className="col-md-4">
-            <h3>List of Widgets Created</h3>
+            <h3>List of Widgets Created (total: {this.state.widgetList ? this.state.widgetList.length : 0})</h3>
             {this.state.widgetList && this.state.widgetList.map((item, index) =>
               <div className="well" key={index}>
                 <div>id: {item.id}</div>

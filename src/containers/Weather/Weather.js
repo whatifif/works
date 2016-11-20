@@ -43,20 +43,6 @@ class Weather extends Component {
   }
   constructor(props) {
     super(props);
-    // this.state = { title: null, showWind: null, units: null, widgetSrc: null, widgetCode: null};
-    // this.state = {
-    //   title: props.title,
-    //   showWind: props.showWind,
-    //   units: props.units,
-    //   widgetSrc: props.widgetSrc,
-    //   widgetCode: props.widgetCode,
-    //   widgetList: [
-    //     {title: 'a title', widgetCode: 'a widgetcode'},
-    //     {title: 'b title', widgetCode: 'b widgetcode'},
-    //     {title: 'c title', widgetCode: 'c widgetcode'},
-    //     {title: 'd title', widgetCode: 'd widgetcode'},
-    //   ]
-    // };
     this.state = {
       id: props.id,
       title: props.title,

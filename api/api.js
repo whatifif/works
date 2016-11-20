@@ -7,7 +7,14 @@ import {mapUrl} from 'utils/url.js';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+//MongoDB--------------------------------
+import mongoose from 'mongoose';
+import WidgetSeed from './actions/weather/model/WidgetSeed';
 
+const mongoUrl = process.env.MONGO_URL || config.mongoUrl;
+mongoose.connect(mongoUrl);
+WidgetSeed();
+//================================
 const pretty = new PrettyError();
 const app = express();
 

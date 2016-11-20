@@ -3,11 +3,13 @@ require('babel-polyfill');
 const environment = {
   development: {
     isProduction: false,
+    mongoUrl: 'mongodb://localhost/works',
     port: 3000,
     apiPort: 3030
   },
   production: {
     isProduction: true,
+    mongoUrl: 'mongodb://works:tykxjwl2@ds157677.mlab.com:57677/works',
     port: 8080,
     apiPort: 3030
   }

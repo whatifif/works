@@ -28,7 +28,8 @@ class Weather extends Component {
     widgetSrc: PropTypes.string,
     widgetCode: PropTypes.string,
     widgetList: PropTypes.array,
-    saveWidget: PropTypes.func
+    saveWidget: PropTypes.func,
+    saveWidgetDB: PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -66,7 +67,8 @@ class Weather extends Component {
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
     const newWidget = {id, title, showWind, units, widgetSrc, widgetCode};
     this.setState({id, title, showWind, units, widgetSrc, widgetCode, widgetList: [...this.state.widgetList, newWidget]});
-    this.props.saveWidget(newWidget);
+    // this.props.saveWidget(newWidget);
+    this.props.saveWidgetDB(newWidget);
   }
   render() {
     return (
@@ -112,7 +114,7 @@ class Weather extends Component {
               </div>
               <div className="form-group">
                 <label htmlFor="inputCode" className="col-sm-2 control-label">Widget Code</label>
-                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" value={this.state.widgetCode}>
+                <textarea rows="10"className="col-sm-10" id="inputCode" ref="inputCode" defaultValue={this.state.widgetCode}>
                 </textarea>
               </div>
               <div className="form-group">

@@ -10,6 +10,9 @@ const SAVE_WIDGET = 'redux-example/weather/SAVE_WIDGET';
 const SAVE_WIDGET_DB = 'redux-example/weather/SAVE_WIDGET_DB';
 const SAVE_WIDGET_DB_SUCCESS = 'redux-example/weather/SAVE_WIDGET_DB_SUCCESS';
 const SAVE_WIDGET_DB_FAIL = 'redux-example/weather/SAVE_WIDGET_DB_FAIL';
+const REMOVE_ALL = 'redux-example/weather/REMOVE_ALL';
+const REMOVE_ALL_SUCCESS = 'redux-example/weather/REMOVE_ALL_SUCCESS';
+const REMOVE_ALL_FAIL = 'redux-example/weather/REMOVE_ALL_FAIL';
 // const initialState = {
 //   loaded: false,
 //   editing: {},
@@ -139,6 +142,27 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+    case REMOVE_ALL:
+      return {
+        ...state,
+        loading: true
+      };
+    case REMOVE_ALL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        widgetList: [],
+        error: null
+      };
+    case REMOVE_ALL_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        data: null,
+        error: action.error
+      };
     default:
       return state;
   }
@@ -191,5 +215,12 @@ export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/weather/load') // params not used, just shown as demonstration
+  };
+}
+
+export function removeAll() {
+  return {
+    types: [REMOVE_ALL, REMOVE_ALL_SUCCESS, REMOVE_ALL_FAIL],
+    promise: (client) => client.get('/weather/remove')
   };
 }

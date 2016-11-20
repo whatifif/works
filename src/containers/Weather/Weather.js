@@ -5,9 +5,11 @@ import config from './config';
 // import config from '../../config';
 import {connect} from 'react-redux';
 import * as weatherActions from 'redux/modules/weather';
+import uuid from 'uuid';
 
 @connect(
   state => ({
+    id: state.weather.id,
     title: state.weather.title,
     showWind: state.weather.showWind,
     units: state.weather.units,
@@ -19,6 +21,7 @@ import * as weatherActions from 'redux/modules/weather';
   )
 class Weather extends Component {
   static propTypes = {
+    id: PropTypes.string,
     title: PropTypes.string,
     showWind: PropTypes.bool,
     units: PropTypes.string,
@@ -44,6 +47,7 @@ class Weather extends Component {
     //   ]
     // };
     this.state = {
+      id: props.id,
       title: props.title,
       showWind: props.showWind,
       units: props.units,
@@ -54,13 +58,14 @@ class Weather extends Component {
   }
   submit = (event) => {
     event.preventDefault();
+    const id = uuid();
     const title = this.refs.inputTitle.value || 'Weather Widget';
     const showWind = String(this.refs.inputShowWind.checked) || 'false';
     const units = this.refs.inputUnits.value || 'metric';
     const widgetSrc = `http://${config.host}:${config.port}/weather-widget?title=${encodeURI(title)}&showWind=${showWind}&units=${units}`;
     const widgetCode = `<iframe src="${widgetSrc}" width="100%" height="300px" scrolling="yes" marginWidth="0" marginHeight="0" frameBorder="0" vspace="0" hspace="0"></iframe>`;
-    const newWidget = {title, showWind, units, widgetSrc, widgetCode};
-    this.setState({title, showWind, units, widgetSrc, widgetCode, widgetList: [...this.state.widgetList, newWidget]});
+    const newWidget = {id, title, showWind, units, widgetSrc, widgetCode};
+    this.setState({id, title, showWind, units, widgetSrc, widgetCode, widgetList: [...this.state.widgetList, newWidget]});
     this.props.saveWidget(newWidget);
   }
   render() {
@@ -124,8 +129,9 @@ class Weather extends Component {
             <h3>List of Widgets Created</h3>
             {this.state.widgetList && this.state.widgetList.map((item, index) =>
               <div className="well" key={index}>
-                <div>{item.title}</div>
-                <div>{item.widgetCode}</div>
+                <div>id: {item.id}</div>
+                <div>title: {item.title}</div>
+                <div>code:<br/> {item.widgetCode}</div>
               </div>
             )}
           </div>

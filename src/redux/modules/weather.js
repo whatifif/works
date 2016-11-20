@@ -33,6 +33,7 @@ const SAVE_WIDGET_DB_FAIL = 'redux-example/weather/SAVE_WIDGET_DB_FAIL';
 //   saveError: {}
 // };
 const initialState = {
+  id: 'default-uuid',
   title: 'Widget Title',
   showWind: true,
   units: 'metric',

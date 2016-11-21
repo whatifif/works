@@ -1,0 +1,12 @@
+.idea/
+node_modules/
+dist/
+*.iml
+webpack-assets.json
+webpack-stats.json
+npm-debug.log
+*.swp
+PROJECT-0-digitalocean.md
+PROJECT.md
+PROJECT-weather.md
+/.project

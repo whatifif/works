@@ -46,7 +46,7 @@ describe('Weather Widget', () => {
     const text = dom.getElementsByTagName('h2')[0].textContent;
     expect(text).to.equal(mockStore.weather.title);
   });
-  
+
   it('should render a Get Widget Code button', () => {
     const text = dom.getElementsByTagName('button')[0].textContent;
     expect(text).to.be.a('string');

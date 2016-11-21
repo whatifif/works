@@ -3,13 +3,11 @@ require('babel-polyfill');
 const environment = {
   development: {
     isProduction: false,
-    mongoUrl: 'mongodb://localhost/works',
     port: 3000,
     apiPort: 3030
   },
   production: {
     isProduction: true,
-    mongoUrl: 'mongodb://works:tykxjwl2@ds157677.mlab.com:57677/works',
     port: 8080,
     apiPort: 3030
   }
@@ -20,6 +18,7 @@ module.exports = Object.assign({
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
+  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost/works',
   app: {
     title: 'Works',
     description: 'All the modern best practices in one example.',

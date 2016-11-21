@@ -27,7 +27,6 @@ const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   ws: true
 });
-
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
